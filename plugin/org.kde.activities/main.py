@@ -65,8 +65,11 @@ def _urlForCurrentDocument(suf = ":p"):
         if document is None or document == "":
             document = vim.eval('expand("%' + suf + '")')
 
-        if os.path.exists("/" + document):
-            return "file://" + document
+        if not document.startswith("/"):
+            document = "/" + document
+
+        if os.path.exists(document):
+            return document
 
         return None
 
