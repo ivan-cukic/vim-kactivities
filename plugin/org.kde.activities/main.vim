@@ -47,7 +47,7 @@ command UnlinkFromActivity          :python kde_activities_Unlink()<CR>
 command LinkDirectoryToActivity     :python kde_activities_LinkDirectory()<CR>
 command UnlinkDirectoryFromActivity :python kde_activities_UnlinkDirectory()<CR>
 
-menu File.Activities.Link\ current\ file :LinkToActivity<CR>
-menu File.Activities.Link\ containing\ directory     :LinkDirectoryToActivity<CR>
-menu File.Activities.Unlink\ current\ file :UnlinkFromActivity<CR>
-menu File.Activities.Unlink\ containing\ directory     :UnlinkDirectoryFromActivity<CR>
+menu Plugin.Activities.Link\ current\ file :LinkToActivity<CR>
+menu Plugin.Activities.Link\ containing\ directory     :LinkDirectoryToActivity<CR>
+menu Plugin.Activities.Unlink\ current\ file :UnlinkFromActivity<CR>
+menu Plugin.Activities.Unlink\ containing\ directory     :UnlinkDirectoryFromActivity<CR>
