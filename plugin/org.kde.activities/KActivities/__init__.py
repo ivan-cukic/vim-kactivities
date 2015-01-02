@@ -28,14 +28,35 @@ class Event:
     FocussedIn = 4  # resource get the keyboard focus
     FocussedOut = 5 # resource lost the focus
 
-ActivityManager = dbus.SessionBus().get_object('org.kde.ActivityManager', '/ActivityManager/Resources')
 
-RegisterResourceEvent      = ActivityManager.get_dbus_method('RegisterResourceEvent',      'org.kde.ActivityManager.Resources')
-RegisterResourceMimeType   = ActivityManager.get_dbus_method('RegisterResourceMimeType',   'org.kde.ActivityManager.Resources')
-RegisterResourceTitle      = ActivityManager.get_dbus_method('RegisterResourceTitle',      'org.kde.ActivityManager.Resources')
-LinkResourceToActivity     = ActivityManager.get_dbus_method('LinkResourceToActivity',     'org.kde.ActivityManager.Resources')
-UnlinkResourceFromActivity = ActivityManager.get_dbus_method('UnlinkResourceFromActivity', 'org.kde.ActivityManager.Resources')
+ActivityManager_Events  = dbus.SessionBus().get_object('org.kde.ActivityManager', '/ActivityManager/Resources')
+ActivityManager_Linking = dbus.SessionBus().get_object('org.kde.ActivityManager', '/ActivityManager/Resources/Linking')
 
+RegisterResourceEvent      = ActivityManager_Events.get_dbus_method('RegisterResourceEvent',       'org.kde.ActivityManager.Resources')
+RegisterResourceMimeType   = ActivityManager_Events.get_dbus_method('RegisterResourceMimeType',    'org.kde.ActivityManager.Resources')
+RegisterResourceTitle      = ActivityManager_Events.get_dbus_method('RegisterResourceTitle',       'org.kde.ActivityManager.Resources')
+
+# Crappy Python D-Bus binding does not support overloaded methods
+
+def LinkResourceToActivity(resource):
+    unique = dbus.SessionBus().call_blocking(
+            'org.kde.ActivityManager',                   # bus name
+            '/ActivityManager/Resources/Linking',        # object path
+            'org.kde.ActivityManager.ResourcesLinking',  # dbus iface
+            'LinkResourceToActivity',                    # method
+            'sss',                                       # signature
+            ("", resource, ":current")                   # args
+            )
+
+def UnlinkResourceFromActivity(resource):
+    unique = dbus.SessionBus().call_blocking(
+            'org.kde.ActivityManager',                   # bus name
+            '/ActivityManager/Resources/Linking',        # object path
+            'org.kde.ActivityManager.ResourcesLinking',  # dbus iface
+            'UnlinkResourceFromActivity',                # method
+            'sss',                                       # signature
+            ("", resource, ":current")                   # args
+            )
 
 class ResourceInstance:
     _wid         = None

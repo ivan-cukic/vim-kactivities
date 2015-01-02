@@ -62,7 +62,7 @@ def _urlForCurrentDocument(suf = ":p"):
     try:
         document = vim.eval('expand("<afile>' + suf + '")')
 
-        if document is None:
+        if document is None or document == "":
             document = vim.eval('expand("%' + suf + '")')
 
         if os.path.exists("/" + document):
@@ -81,6 +81,7 @@ def _urlForCurrentDocument(suf = ":p"):
 
 kde_activities_resourceinstance = None
 
+
 def kde_activities_ResourceInstance():
     global kde_activities_resourceinstance
 
@@ -88,6 +89,7 @@ def kde_activities_ResourceInstance():
         kde_activities_resourceinstance = KActivities.ResourceInstance(_getWindowId(), "gvim")
 
     return kde_activities_resourceinstance
+
 
 def kde_activities_FocussedIn():
     document = _urlForCurrentDocument()
@@ -97,8 +99,10 @@ def kde_activities_FocussedIn():
 
     kde_activities_ResourceInstance().setUri(document)
 
+
 def kde_activities_FocussedOut():
     pass
+
 
 def kde_activities_Link():
     document = _urlForCurrentDocument()
@@ -106,11 +110,13 @@ def kde_activities_Link():
     if document is not None:
         KActivities.LinkResourceToActivity(document)
 
+
 def kde_activities_Unlink():
     document = _urlForCurrentDocument()
 
     if document is not None:
         KActivities.UnlinkResourceFromActivity(document)
+
 
 def kde_activities_LinkDirectory():
     document = _urlForCurrentDocument(":p:h")
@@ -118,9 +124,11 @@ def kde_activities_LinkDirectory():
     if document is not None:
         KActivities.LinkResourceToActivity(document)
 
+
 def kde_activities_UnlinkDirectory():
     document = _urlForCurrentDocument(":p:h")
 
     if document is not None:
         KActivities.UnlinkResourceFromActivity(document)
+
 
