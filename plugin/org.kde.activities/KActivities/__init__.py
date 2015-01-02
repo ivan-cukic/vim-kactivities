@@ -17,6 +17,7 @@
 #
 
 import dbus
+import vim
 
 class Event:
     Accessed = 0    # resource was accessed, but we don't know for how long it will be open/used
@@ -28,13 +29,19 @@ class Event:
     FocussedIn = 4  # resource get the keyboard focus
     FocussedOut = 5 # resource lost the focus
 
+RegisterResourceEvent      = lambda app, winid, uri, event: ()
+RegisterResourceMimeType   = lambda uri, mime: ()
+RegisterResourceTitle      = lambda uri, title: ()
 
-ActivityManager_Events  = dbus.SessionBus().get_object('org.kde.ActivityManager', '/ActivityManager/Resources')
-ActivityManager_Linking = dbus.SessionBus().get_object('org.kde.ActivityManager', '/ActivityManager/Resources/Linking')
+try:
+    ActivityManager_Events  = dbus.SessionBus().get_object('org.kde.ActivityManager', '/ActivityManager/Resources')
+    ActivityManager_Linking = dbus.SessionBus().get_object('org.kde.ActivityManager', '/ActivityManager/Resources/Linking')
 
-RegisterResourceEvent      = ActivityManager_Events.get_dbus_method('RegisterResourceEvent',       'org.kde.ActivityManager.Resources')
-RegisterResourceMimeType   = ActivityManager_Events.get_dbus_method('RegisterResourceMimeType',    'org.kde.ActivityManager.Resources')
-RegisterResourceTitle      = ActivityManager_Events.get_dbus_method('RegisterResourceTitle',       'org.kde.ActivityManager.Resources')
+    RegisterResourceEvent      = ActivityManager_Events.get_dbus_method('RegisterResourceEvent',       'org.kde.ActivityManager.Resources')
+    RegisterResourceMimeType   = ActivityManager_Events.get_dbus_method('RegisterResourceMimeType',    'org.kde.ActivityManager.Resources')
+    RegisterResourceTitle      = ActivityManager_Events.get_dbus_method('RegisterResourceTitle',       'org.kde.ActivityManager.Resources')
+except:
+    vim.command('echom "KDE Activity manager is not running, disabling the integration plugin."')
 
 # Crappy Python D-Bus binding does not support overloaded methods
 
