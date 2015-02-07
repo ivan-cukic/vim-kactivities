@@ -46,12 +46,16 @@ def _getWindowId():
     # Falling back to testing the environment vatiable
     # if we are in a terminal - normal VIM
     try:
-        wid = int(os.getenv("WINDOWID"))
-        return wid
+        widenv = os.getenv("WINDOWID")
+        if widenv:
+            wid = int(widenv)
+            return wid
 
     # Otherwise, we must go without the window id
     except ValueError:
-        return 0
+        pass
+
+    return 0
 
 
 #######################################################################
