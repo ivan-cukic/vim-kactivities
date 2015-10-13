@@ -25,8 +25,13 @@ from Xlib import X, display, Xatom
 #     Xlib.protocol.request.QueryExtension
 old_stdout = sys.stdout
 sys.stdout = open("/dev/null", "w")
-display    = Xlib.display.Display()
-screen     = display.screen()
+
+try:
+    display = Xlib.display.Display()
+    screen  = display.screen()
+except Exception:
+    display = None
+
 sys.stdout.close()
 sys.stdout = old_stdout
 
@@ -55,20 +60,23 @@ def _processWindow(win, atom, processId, level = 0):
 
 # Gets the window IDs that belong to the specified process
 def getWindowIds(processId):
+    try:
+        root = screen.root
+        tree = root.query_tree()
+        wins = tree.children
+        atom = display.intern_atom("_NET_WM_PID", 1)
 
-    root = screen.root
-    tree = root.query_tree()
-    wins = tree.children
-    atom = display.intern_atom("_NET_WM_PID", 1)
+        # recursively searches the window tree
+        # for the one that has a desired pid
+        result = set()
 
-    # recursively searches the window tree
-    # for the one that has a desired pid
-    result = set()
+        for win in wins:
+            result |= _processWindow(win, atom, processId)
 
-    for win in wins:
-        result |= _processWindow(win, atom, processId)
+        return result
 
-    return result
+    except Exception:
+        return []
 
 # Gets the window IDs that belong to the current process
 def getWindowIdsForCurrentProcess():

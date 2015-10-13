@@ -41,7 +41,7 @@ try:
     RegisterResourceMimeType   = ActivityManager_Events.get_dbus_method('RegisterResourceMimeType',    'org.kde.ActivityManager.Resources')
     RegisterResourceTitle      = ActivityManager_Events.get_dbus_method('RegisterResourceTitle',       'org.kde.ActivityManager.Resources')
 except:
-    vim.command('echom "KDE Activity manager is not running, disabling the integration plugin."')
+    vim.command('echom "KDE Activity manager is not running or DISPLAY not set, disabling the integration plugin."')
 
 # Crappy Python D-Bus binding does not support overloaded methods
 
