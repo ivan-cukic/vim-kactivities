@@ -26,11 +26,11 @@ endif
 
 let loaded_KDE_ACTIVITIES = 1
 
-python import sys
-python import vim
-python sys.path.insert(0, vim.eval('expand("<sfile>:h")'))
+py3 import sys
+py3 import vim
+py3 sys.path.insert(0, vim.eval('expand("<sfile>:h")'))
 
-pyfile <sfile>:h/main.py
+py3file <sfile>:h/main.py
 
 " autocmd BufAdd      * :python kde_activities_Opened()
 " autocmd BufRead     * :python kde_activities_Opened()
@@ -39,13 +39,13 @@ pyfile <sfile>:h/main.py
 " autocmd BufDelete   * :python kde_activities_Closed()
 " autocmd BufFilePre  * :python kde_activities_Closed()
 
-autocmd BufLeave    * :python kde_activities_FocussedOut()
-autocmd BufEnter    * :python kde_activities_FocussedIn()
+autocmd BufLeave    * :py3 kde_activities_FocussedOut()
+autocmd BufEnter    * :py3 kde_activities_FocussedIn()
 
-command LinkToActivity              :python kde_activities_Link()<CR>
-command UnlinkFromActivity          :python kde_activities_Unlink()<CR>
-command LinkDirectoryToActivity     :python kde_activities_LinkDirectory()<CR>
-command UnlinkDirectoryFromActivity :python kde_activities_UnlinkDirectory()<CR>
+command LinkToActivity              :py3 kde_activities_Link()<CR>
+command UnlinkFromActivity          :py3 kde_activities_Unlink()<CR>
+command LinkDirectoryToActivity     :py3 kde_activities_LinkDirectory()<CR>
+command UnlinkDirectoryFromActivity :py3 kde_activities_UnlinkDirectory()<CR>
 
 menu Plugin.Activities.Link\ current\ file :LinkToActivity<CR>
 menu Plugin.Activities.Link\ containing\ directory     :LinkDirectoryToActivity<CR>
